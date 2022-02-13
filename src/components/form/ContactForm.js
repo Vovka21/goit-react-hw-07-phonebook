@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
 import styles from './ContactForm.module.css';
-import contactsActions from '../../redux/contacts/actions';
+import contactsOperations from '../../redux/contacts/operations';
 import { getContacts } from '../../redux/contacts/selector';
 
 const ContactForm = () => {
@@ -32,7 +32,7 @@ const ContactForm = () => {
   );
 
   const onSubmit = (name, number) =>
-    dispatch(contactsActions.addContact(name, number));
+    dispatch(contactsOperations.addContact(name, number));
 
   const handleSubmit = e => {
     e.preventDefault();
