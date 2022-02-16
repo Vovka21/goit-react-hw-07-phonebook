@@ -4,9 +4,9 @@ import View from './components/view/View';
 
 const App = () => (
   <>
-    {/* <div>
+    <div>
       <Link to="/contacts">Contacts</Link>
-    </div> */}
+    </div>
 
     <Routes>
       <Route path="/contacts" element={<View />} />
