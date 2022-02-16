@@ -1,22 +1,44 @@
-import { nanoid } from 'nanoid';
 import axios from 'axios';
-import actions from './actions';
+import {
+  addContactRequest,
+  addContactSuccess,
+  addContactError,
+  deleteContactRequest,
+  deleteContactSuccess,
+  deleteContactError,
+  fetchContactsRequest,
+  fetchContactsSuccess,
+  fetchContactsError,
+} from './actions';
 
-axios.defaults.baseURL = '';
+axios.defaults.baseURL = 'https://620d206db573632593a77013.mockapi.io/api/';
+
+const fetchContacts = () => dispatch => {
+  dispatch(fetchContactsRequest());
+  axios
+    .get('/contacts')
+    .then(({ data }) => dispatch(fetchContactsSuccess(data)))
+    .catch(error => dispatch(fetchContactsError(error)));
+};
 
 const addContact = (name, number) => dispatch => {
-  const contact = {
-    id: nanoid(),
-    name,
-    number,
-  };
+  const contact = { name, number };
 
-  dispatch(actions.addContactRequest);
+  dispatch(addContactRequest());
 
   axios
     .post('/contacts', contact)
-    .then(({ data }) => dispatch(actions.addContactSuccess(data)))
-    .catch(error => dispatch(actions.addContactError(error)));
+    .then(({ data }) => dispatch(addContactSuccess(data)))
+    .catch(error => dispatch(addContactError(error)));
 };
 
-export default { addContact };
+const deleteContact = contactId => dispatch => {
+  dispatch(deleteContactRequest());
+
+  axios
+    .delete(`/contacts/${contactId}`)
+    .then(() => dispatch(deleteContactSuccess(contactId)))
+    .catch(error => dispatch(deleteContactError(error)));
+};
+
+export default { fetchContacts, addContact, deleteContact };
